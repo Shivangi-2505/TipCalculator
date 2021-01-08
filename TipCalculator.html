@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+</head>
+<style>
+  body {
+    background: grey;
+    margin: 0 auto;
+  }
+  .calculator {
+    display: flex;
+    width: 600px;
+    height: 400px;
+    background: #ffffff;
+    margin: 0 auto;
+
+  }
+  .input {
+    width: 40%;
+    padding: 15px;
+
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+    color: #222;
+    font-family: arial,sans-serif;
+  }
+
+  .input-group-btn input{
+    max-width: 50%;
+  }
+  .input > div + div {
+    margin-top: 15px;
+        color: #222;
+    font-family: arial,sans-serif;
+  }
+  
+
+  .result {
+    width: 60%;
+    border-left: 1px solid;
+    color: #222;
+    font-family: arial,sans-serif;
+  }
+
+  .result-first, .result-second {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  }
+</style>
+<body>
+  <div class="calculator">
+    <div class="input">
+      <div class="input-group">
+        <label for="amount">Bill</label>
+        <input type="number" min=0 id="amount" onchange="syncValues('tip')">
+      </div>
+      <div class="input-group">
+        <label for=""> Tip % </label>
+        <div class="input-group-btn">
+          <button onclick="decreaseValue('tip')"> - </button>
+          <input type="text" id="tip" onchange="syncValues('tip')"min=0>
+          <button onclick="increaseValue('tip')"> + </button>
+        </div>
+      </div>
+      <div class="input-group">
+        <label for=""> Number of people </label>
+        <div class="input-group-btn">
+          <button onclick="decreaseValue('people')"> - </button>
+          <input type="text" id="people" onchange="syncValues('people')">
+          <button onclick="increaseValue('people')"> + </button>
+        </div>
+      </div>
+    </div>
+    <div class="result">
+      <div class="result-first">
+        <div class="half">
+          <h1>Tip</h1>
+          <p>per person </p>
+        </div>
+        <h1 id="tipValue" class="other-half">$0</h1>
+      </div>
+      <div class="result-second">
+        <div class="half">
+          <h1>Total</h1>
+          <p>per person </p>
+        </div>
+        <h1 id="total" class="other-half">$0</h1>
+      </div>
+    </div>
+  </div>
+  <script>
+    const amount = document.querySelector('#amount')
+    const tip = document.querySelector('#amount')
+    const people = document.querySelector('#people')
+    const increaseValue = identifier => {
+      const inputElm = document.querySelector(`#${identifier}`)
+      inputElm.value = (Number(inputElm.value) + 1) + ''
+      syncValues();  
+    }
+    const decreaseValue = identifier => {
+      const inputElm = document.querySelector(`#${identifier}`)
+     { if (Number(inputElm.value) > 1)
+        inputElm.value = (Number(inputElm.value) - 1) + ''
+        syncValues();
+        }  
+    }
+    
+    const syncValues = identifier => {
+      const amount = document.querySelector('#amount')
+      const tip = document.querySelector('#tip')
+      const people = document.querySelector('#people')
+      const total = document.querySelector('#total')
+      const tipValue = document.querySelector('#tipValue')
+      !amount.value && alert('please enter amount') 
+      !tip.value && alert('please enter tip') 
+      !people.value && alert('please enter people')
+      if (amount.value && tip.value && people.value) {
+        const percentageValue = (Number(tip.value) / 100) * Number(amount.value)
+        const eachtip = percentageValue / Number(people.value)
+        const eachPersonAmount = (Number(amount.value) + percentageValue) / Number(people.value)
+        console.log(eachtip, eachPersonAmount)
+        total.textContent = '$' + eachPersonAmount
+        tipValue.textContent = '$' + eachtip
+      } else {
+        return
+      }
+    }
+  </script>
+</body>
+</html>
